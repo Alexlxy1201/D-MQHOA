@@ -1,8 +1,6 @@
-# Dependency-aware edge scheduling
+# MQHOA Edge Scheduling
 
-**Xiuya Liao · Research code sample for DTU Compute, position 8569**
-
-When is it faster to move a task from a device to an edge server? Moving it can shorten computation but add a transfer delay for the next task. This Python example searches over both the placement of tasks and their execution order, then checks the resulting schedule against the exact optimum for a four-task graph.
+This repository runs the MQHOA project's discrete scheduler (D-MQ) on a graph of dependent tasks. The search chooses which tasks to offload to an edge server and in what order to execute them. When a task and its predecessor run on different devices, the scheduling model accounts for the time needed to transfer their data.
 
 ## Run the example
 
@@ -16,7 +14,7 @@ python3.12 -m venv .venv
 
 If NumPy 2.3.5 is already installed, run `python run_demo.py` directly. No external dataset is needed.
 
-## What to look for
+## Example output
 
 The first and last tasks stay on the device. The two middle tasks can run locally or on the server. The example enumerates all eight feasible schedules and compares the D-MQ search result with the best of them.
 
@@ -30,11 +28,9 @@ The first and last tasks stay on the device. The two middle tasks can run locall
 
 The script checks these results against [expected.json](expected.json). Its last line reports the solver's elapsed time in seconds, separately from the model time needed to execute the scheduled tasks.
 
-## My contribution and where to start
+## Code
 
-In the collaborative D-MQ project, I worked on algorithm implementation, designed the comparison experiments, and prepared and analyzed the experimental data. For a short review:
-
-1. [Walk through the search and exact check](run_demo.py).
-2. [Inspect the search moves](supplement/discrete_neighborhood_v1/engine.py): the search can change where a task runs or swap the order of independent tasks.
-3. [Read the shared scheduling model](supplement/mqhoa_supp/model.py) to see how precedence and transfer delays determine start times, and how a separate function checks feasibility.
+- [run_demo.py](run_demo.py) loads the task graph, runs D-MQ, and checks the result against exhaustive enumeration.
+- [engine.py](supplement/discrete_neighborhood_v1/engine.py) implements the discrete search: change a task's device or swap two independent tasks.
+- [model.py](supplement/mqhoa_supp/model.py) computes start and finish times and checks precedence and resource constraints.
 
