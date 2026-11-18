@@ -38,4 +38,3 @@ In the collaborative D-MQ project, I worked on algorithm implementation, designe
 2. [Inspect the search moves](supplement/discrete_neighborhood_v1/engine.py): the search can change where a task runs or swap the order of independent tasks.
 3. [Read the shared scheduling model](supplement/mqhoa_supp/model.py) to see how precedence and transfer delays determine start times, and how a separate function checks feasibility.
 
-The [one-page guide](Code_Sample_Guide.pdf) explains the research question and my role. The [results excerpt](results_excerpt/) contains aggregate schedule-quality and solver-timing comparisons from the larger study.
