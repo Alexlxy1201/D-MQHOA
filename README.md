@@ -1,36 +1,21 @@
-# MQHOA Edge Scheduling
+# Discrete Multi-scale Quantum Harmonic Oscillator Algorithm (D-MQHOA)
 
-This repository runs the MQHOA project's discrete scheduler (D-MQ) on a graph of dependent tasks. The search chooses which tasks to offload to an edge server and in what order to execute them. When a task and its predecessor run on different devices, the scheduling model accounts for the time needed to transfer their data.
+D-MQHOA schedules a directed acyclic graph of tasks across a local device and an edge server to minimize makespan. A schedule specifies where each task runs and a task order that respects dependencies. The decoder accounts for processor availability and for transfer delays when dependent tasks run on different devices.
 
-## Run the example
+The search starts with a Heterogeneous Earliest Finish Time (HEFT) schedule and 19 random schedules, keeping the best four as search centers. Each candidate is built by moving an unpinned task to the other device or swapping adjacent tasks that have no precedence relation. The search favors edits involving critical tasks. A Gaussian sample sets the number of edits per candidate; as centers become similar, the sampling scale shrinks. A stalled center restarts from a one-edit neighbor of the HEFT schedule.
 
-With Python 3.12 on Linux or macOS, run these commands in the repository root:
+## Usage
 
-```sh
-python3.12 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python run_demo.py
+Install NumPy with `python -m pip install -r requirements.txt` (Python 3.12, Linux or macOS).
+
+```python
+import json
+from pathlib import Path
+from dmqhoa import solve_dmqhoa
+
+graph = json.loads(Path("toy_graph.json").read_text())
+schedule = solve_dmqhoa(graph, budget=10_000, seed=7)
+print(schedule)
 ```
 
-If NumPy 2.3.5 is already installed, run `python run_demo.py` directly. No external dataset is needed.
-
-## Example output
-
-The first and last tasks stay on the device. The two middle tasks can run locally or on the server. The example enumerates all eight feasible schedules and compares the D-MQ search result with the best of them.
-
-| Measurement | Expected result |
-| --- | ---: |
-| All-local completion time | 9 model time units |
-| Best completion time by enumeration | 6 model time units |
-| Completion time found by D-MQ (seed 7) | 6 model time units |
-| Search evaluations | 60 |
-| Constraint violations | 0 |
-
-The script checks these results against [expected.json](expected.json). Its last line reports the solver's elapsed time in seconds, separately from the model time needed to execute the scheduled tasks.
-
-## Code
-
-- [run_demo.py](run_demo.py) loads the task graph, runs D-MQ, and checks the result against exhaustive enumeration.
-- [engine.py](supplement/discrete_neighborhood_v1/engine.py) implements the discrete search: change a task's device or swap two independent tasks.
-- [model.py](supplement/mqhoa_supp/model.py) computes start and finish times and checks precedence and resource constraints.
-
+`tl` and `ts` give task durations on the device and server. Each edge is a triple `[predecessor, successor, transfer_delay]`; tasks in `pinned` stay on the device. The result contains the placement (0: device, 1: server), task order, makespan and number of evaluations. Run `python run_demo.py` for the four-task example.
