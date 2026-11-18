@@ -1,0 +1,15 @@
+{
+ "protocol":"structural-neighborhood-diagnostic-v1",
+ "strict_threshold":1e-8,
+ "critical_slack_tolerance":1e-8,
+ "replay_instances":["archive10","archive50","eval-n100-deep-r0"],
+ "replay_seed":0,
+ "replay_budget":10000,
+ "stage1_max_objective_calls":1372,
+ "stage2_objective_calls":30000,
+ "event_flush_every":100,
+ "hard_timeout_seconds":600,
+ "workers":1,
+ "labels_only_no_candidate_filter":true,
+ "inference_role":"known14DAG local landscape and exact trajectory diagnostics; no causal restart ablation or population p-values"
+}

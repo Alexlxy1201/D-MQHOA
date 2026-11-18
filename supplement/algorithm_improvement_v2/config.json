@@ -1,0 +1,65 @@
+{
+  "protocol": "ready-key-development-v2-strict-elitist-centers",
+  "methods": [
+    "A_DirectGeometry",
+    "B_ReadyKey",
+    "C_ReadyKeyHEFT",
+    "C_fixed",
+    "PSO_ReadyKeyHEFT",
+    "LS_HEFT",
+    "HEFT",
+    "FlexDO_N2"
+  ],
+  "stochastic_methods": [
+    "A_DirectGeometry",
+    "B_ReadyKey",
+    "C_ReadyKeyHEFT",
+    "C_fixed",
+    "PSO_ReadyKeyHEFT",
+    "LS_HEFT"
+  ],
+  "budget_evals": 10000,
+  "development_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "pilot_seed": 0,
+  "mqhoa": {
+    "k": 4,
+    "m": 5,
+    "lambda": 1.3
+  },
+  "initial_sigma": 0.5,
+  "position_threshold": 0.5,
+  "coordinate_bounds": [
+    0.0,
+    1.0
+  ],
+  "heft_placement_coordinates": [
+    0.25,
+    0.75
+  ],
+  "heft_priority_encoding": "order rank +1 divided by N+1",
+  "ready_queue_tie_break": "minimum (priority_key, numeric_node_id)",
+  "center_update": "only strict fitness improvement replaces a center; cached already-evaluated fitness; no additional objective call",
+  "heft_center_policy": "center0=HEFT; other3=best nonHEFT initializer candidates, stable tie",
+  "hamming_rule": "max placement-position plus order-position mismatches divided by2N < sigma",
+  "ls_move_family": "uniform over available flip/swap families, then uniform legal member",
+  "ls_acceptance": "strict value < current value",
+  "ls_restart": "after2N consecutive nonimproving evaluations next candidate is one legal random perturbation of HEFT; accept as current; retain global incumbent",
+  "ls_swap": "adjacent nodes with no dependency in either direction (transitive reachability checked)",
+  "duplicate_policy": "every repeated/no-op candidate consumes one evaluation",
+  "trace_every": 100,
+  "development_workers": 2,
+  "pilot_workers": 1,
+  "shuffle_seed": 2026110920,
+  "gate_min_mean_heft_improvement": 0.01,
+  "gate_min_strict_instance_improvements": 4,
+  "gate_strict_tolerance": 1e-09,
+  "inference_role": "known14DAG development only; descriptive instance means; no confirmatory p-values",
+  "formal_planning_conditions": 10980,
+  "implementation_round": 2
+}

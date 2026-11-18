@@ -1,0 +1,13 @@
+{
+ "protocol":"discrete-neighborhood-candidate-v1",
+ "methods":["D_MQ","D_MQ_Fixed","D_MQ_OneCenter","D_Step","LS_HEFT","PSO_ReadyKeyHEFT","HEFT","FlexDO_N2"],
+ "stochastic_methods":["D_MQ","D_MQ_Fixed","D_MQ_OneCenter","D_Step","LS_HEFT","PSO_ReadyKeyHEFT"],
+ "new_methods":["D_MQ","D_MQ_Fixed","D_MQ_OneCenter","D_Step"],
+ "budget":10000,"seeds":[0,1,2,3,4],"smoke_seed":0,"workers":2,
+ "k":4,"m":5,"lambda":1.3,"strict_tolerance":1e-8,"critical_tolerance":1e-8,
+ "R_rule":"max(2,ceil(.1*N))","critical_mixture_probability":0.5,"restart_stale_multiplier":2,
+ "main_objective_limit":4720000,"matrix_shuffle_seed":2026110930,
+ "gzip_compresslevel":1,"event_flush_every":1000,
+ "smoke_timeout":600,"development_timeout":7200,
+ "inference":"one known14DAG development round; no p-values,holdout or second tuning round"
+}
